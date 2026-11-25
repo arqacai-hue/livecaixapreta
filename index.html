@@ -127,6 +127,12 @@ html{scroll-behavior:smooth}
 .bk3 .pg{position:absolute;top:1.4%;bottom:1.4%;left:calc(100% - 2px);width:4%;border-radius:0 4px 4px 0;background:repeating-linear-gradient(90deg,#e9dfca 0 1px,#bfb299 1px 2px);box-shadow:0 0 6px rgba(0,0,0,.4)}
 .livro .dupla .bk3 img.capa{position:relative;transform:none;border-radius:2px 6px 6px 2px;box-shadow:0 0 0 1px #000}
 .bk3 .sh{position:absolute;inset:0;border-radius:2px 6px 6px 2px;background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(0,0,0,0) 4%),linear-gradient(112deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.2) 50%,rgba(255,255,255,0) 62%);pointer-events:none}
+.dores .dica{margin:-4px 0 8px;font-size:13px;color:#7a7080}
+.grupo-d{margin:14px 0 6px;font-family:Oswald,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--roxo)}
+.campo label.ck{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px;padding:12px 14px;border:1.5px solid #d9cdb6;border-radius:12px;background:#fdfaf3;font-size:14px;font-weight:600;line-height:1.35;cursor:pointer;color:#1d1a20}
+.campo .ck input[type=checkbox]{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--roxo)}
+.campo .ck:has(input:checked){border-color:var(--roxo);background:#f3ecf7}
+.campo label.ck.outro{align-items:center;cursor:text;padding:6px 14px}.campo .ck.outro input[type=text]{flex:1;border:0;background:transparent;font:inherit;font-size:15px;font-weight:500;padding:8px 0;outline:none;min-width:0;width:auto}
 </style>
 </head>
 <body>
@@ -197,6 +203,21 @@ html{scroll-behavior:smooth}
             <label class="op"><input type="radio" name="q6_q6_radio4" value="Vou abrir"><span>Vou abrir</span></label>
           </div>
         </fieldset>
+        <fieldset class="campo dores"><legend>Quais problemas você mais quer resolver na sua loja?</legend><p class="dica">Marque quantos quiser.</p>
+          <p class="grupo-d">Vendas e cardápio</p>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="O cliente gasta pouco: meu ticket médio é baixo"><span>O cliente gasta pouco: meu ticket médio é baixo</span></label>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Meu cardápio é confuso ou tem produtos que não vendem"><span>Meu cardápio é confuso ou tem produtos que não vendem</span></label>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Não sei quais freezers e equipamentos comprar"><span>Não sei quais freezers e equipamentos comprar</span></label>
+          <p class="grupo-d">Operação e espaço</p>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Forma fila e tumulto no balcão nos horários de pico"><span>Forma fila e tumulto no balcão nos horários de pico</span></label>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Os funcionários se atrapalham e preciso de gente demais para operar"><span>Os funcionários se atrapalham e preciso de gente demais para operar</span></label>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Minha loja é pequena ou o espaço é mal aproveitado"><span>Minha loja é pequena ou o espaço é mal aproveitado</span></label>
+          <p class="grupo-d">Visual da loja</p>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Minha loja não chama a atenção de quem passa na porta"><span>Minha loja não chama a atenção de quem passa na porta</span></label>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Cores, iluminação e fachada não combinam com a minha marca"><span>Cores, iluminação e fachada não combinam com a minha marca</span></label>
+          <label class="ck"><input type="checkbox" name="q8_quaisProblemas[]" value="Minha loja parece antiga e precisa de uma cara nova sem reforma grande"><span>Minha loja parece antiga e precisa de uma cara nova sem reforma grande</span></label>
+          <label class="ck outro"><span>Outro:</span><input type="text" id="i-outro" name="q8_quaisProblemas[other]" placeholder="Escreva aqui"></label>
+        </fieldset>
         <div class="hp" aria-hidden="true"><label for="i-site">Deixe em branco</label><input id="i-site" name="website" tabindex="-1" autocomplete="off"></div>
         <p class="erro" id="erro" role="alert"></p>
         <button class="enviar" type="submit">Quero participar</button>
@@ -264,6 +285,7 @@ var LINK_DO_GRUPO = 'https://chat.whatsapp.com/FYNodMgOFZEGEIel0sBdZL';
     });
     if (faltou) { erro.textContent = faltou.id === 'i-zap' && faltou.value.trim() ? 'Confira o WhatsApp: coloque o DDD e o número.' : 'Preencha todos os campos para garantir sua vaga.'; faltou.focus(); return; }
     if (!f.querySelector('input[type=radio]:checked')) { erro.textContent = 'Escolha a situação da sua loja.'; f.querySelector('input[type=radio]').focus(); return; }
+    if (!f.querySelector('.dores input[type=checkbox]:checked') && !document.getElementById('i-outro').value.trim()) { erro.textContent = 'Marque pelo menos um problema que você quer resolver.'; f.querySelector('.dores input').focus(); return; }
     var bt = f.querySelector('.enviar'); bt.disabled = true; bt.textContent = 'Enviando…';
     var dados = new URLSearchParams(new FormData(f));
     fetch(f.action, { method: 'POST', mode: 'no-cors', body: dados })
